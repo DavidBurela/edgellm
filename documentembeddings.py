@@ -13,7 +13,7 @@ embeddings = OpenAIEmbeddings()
 # embeddings = LlamaCppEmbeddings(model_path="./models/ggml-vicuna-7b-4bit-rev1.bin", n_threads=16)
 # embeddings = LlamaCppEmbeddings(model_path="./models/ggml-vicuna-13b-4bit-rev1.bin", n_threads=16)
 
-# Load the document and split it to fit in token context
+# Load the document and split to fit in token context
 loader = TextLoader('data/satya-openai-announcement.txt')
 documents = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
