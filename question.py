@@ -1,6 +1,6 @@
 #!pip install langchain llama-cpp-python
 from langchain import PromptTemplate, LLMChain
-from langchain import OpenAI
+from langchain.llms import OpenAI
 from langchain.llms import LlamaCpp
 
 ### Cloud

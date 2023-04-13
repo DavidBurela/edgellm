@@ -3,7 +3,7 @@
 from langchain.chains.summarize import load_summarize_chain
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain import OpenAI
+from langchain.llms import OpenAI
 from langchain.llms import LlamaCpp
 
 ### Cloud
