@@ -2,13 +2,13 @@
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.embeddings import LlamaCppEmbeddings
 
 ### Cloud
-from langchain.embeddings import OpenAIEmbeddings
 embeddings = OpenAIEmbeddings()
 
 ### Edge
-from langchain.embeddings import LlamaCppEmbeddings
 # embeddings = LlamaCppEmbeddings(model_path="./models/gpt4all-lora-quantized-new.bin")
 # embeddings = LlamaCppEmbeddings(model_path="./models/ggml-vicuna-7b-4bit-rev1.bin", n_threads=16)
 # embeddings = LlamaCppEmbeddings(model_path="./models/ggml-vicuna-13b-4bit-rev1.bin", n_threads=16)

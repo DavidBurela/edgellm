@@ -9,9 +9,9 @@
 from langchain.agents import create_sql_agent
 from langchain.agents.agent_toolkits import SQLDatabaseToolkit
 from langchain.sql_database import SQLDatabase
-from langchain.llms.openai import OpenAI
 from langchain.agents import AgentExecutor
-
+from langchain import OpenAI
+from langchain.llms import LlamaCpp
 import urllib
 
 #### SQL CONNECTION ####
@@ -30,18 +30,13 @@ db = SQLDatabase.from_uri(connectionString)
 toolkit = SQLDatabaseToolkit(db=db)
 
 
-### Cloud
-# model = OpenAI(temperature=0)
+## Cloud
+# model = OpenAI()
 
-### Edge
-from langchain.llms import LlamaCpp
-# model = LlamaCpp(model_path="./models/gpt4all-lora-quantized-new.bin", n_ctx=2048, verbose=True, n_threads=16)
-# model = LlamaCpp(model_path="./models/ggml-vicuna-7b-4bit-rev1.bin", n_ctx=2048, verbose=True, n_threads=16)
-model = LlamaCpp(model_path="./models/ggml-vicuna-13b-4bit-rev1.bin", n_ctx=4096, verbose=True, n_threads=16, max_tokens=1024)
-
-# legacy edge
-#from langchain.llms import GPT4All
-# model = GPT4All(model="./models/ggml-vicuna-13b-4bit-rev1.bin", n_ctx=2048, verbose=True, n_threads=16)
+## Edge
+# model = LlamaCpp(model_path="./models/gpt4all-lora-quantized-new.bin", verbose=True, n_threads=16)
+# model = LlamaCpp(model_path="./models/ggml-vicuna-7b-4bit-rev1.bin", verbose=True, n_threads=16)
+model = LlamaCpp(model_path="./models/ggml-vicuna-13b-4bit-rev1.bin", verbose=True, n_threads=16)
 
 # Invoke the agent
 agent_executor = create_sql_agent(

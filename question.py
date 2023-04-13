@@ -1,15 +1,15 @@
 #!pip install langchain llama-cpp-python
-from langchain.llms import LlamaCpp
 from langchain import PromptTemplate, LLMChain
+from langchain import OpenAI
+from langchain.llms import LlamaCpp
 
 ### Cloud
-# model = OpenAI()
+model = OpenAI()
 
 ### Edge
-from langchain.llms import LlamaCpp
-model = LlamaCpp(model_path="./models/gpt4all-lora-quantized-new.bin", n_ctx=2048, verbose=True, n_threads=16)
-# model = LlamaCpp(model_path="./models/ggml-vicuna-7b-4bit-rev1.bin", n_ctx=2048, verbose=True, n_threads=16)
-# model = LlamaCpp(model_path="./models/ggml-vicuna-13b-4bit-rev1.bin", n_ctx=2048, verbose=True, n_threads=16)
+model = LlamaCpp(model_path="./models/gpt4all-lora-quantized-new.bin", verbose=True, n_threads=16)
+# model = LlamaCpp(model_path="./models/ggml-vicuna-7b-4bit-rev1.bin", verbose=True, n_threads=16)
+# model = LlamaCpp(model_path="./models/ggml-vicuna-13b-4bit-rev1.bin", verbose=True, n_threads=16)
 
 
 template = """Question: {question}

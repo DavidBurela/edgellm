@@ -3,16 +3,18 @@
 from langchain.chains.summarize import load_summarize_chain
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain import OpenAI
+from langchain.llms import LlamaCpp
 
 ### Cloud
-# model = OpenAI(temperature=0)
+model = OpenAI()
 
 ### Edge
-from langchain.llms import LlamaCpp
 # model = LlamaCpp(model_path="./models/gpt4all-lora-quantized-new.bin", n_ctx=2048, verbose=True, n_threads=16)
 # model = LlamaCpp(model_path="./models/ggml-vicuna-7b-4bit-rev1.bin", n_ctx=2048, verbose=True, n_threads=16)
-model = LlamaCpp(model_path="./models/ggml-vicuna-13b-4bit-rev1.bin", n_ctx=4096, verbose=True, n_threads=16, max_tokens=1024)
+# model = LlamaCpp(model_path="./models/ggml-vicuna-13b-4bit-rev1.bin", n_ctx=2048, verbose=True, n_threads=16)
 
+loader = TextLoader('data/satya-openai-announcement.txt')
 loader = TextLoader('data/codereviewer.txt')
 documents = loader.load()
 
