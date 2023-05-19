@@ -8,8 +8,8 @@ The more complex examples (like SQL agent) require a lot of very heavy pip depen
 ### IMPORTANT
 Within each python script, you need to set the number of CPU threads, or GPU layers to use.
  
- - CPU `n_threads` should be the same as your system
- - `n_gpu_layers` depends on how much VRAM you have. Is trial and error.
+ - CPU: `n_threads` should be the same as your system
+ - GPU: `n_gpu_layers` depends on how much VRAM you have. Is trial and error.
 
 ``` python
 # CPU only
@@ -56,7 +56,7 @@ export LLAMA_CUBLAS=1
 CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python --no-cache-dir
 
 ## Run your scripts
-time python question
+time python questionchain.py
 ```
 
 ## Sourcing models
