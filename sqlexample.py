@@ -1,5 +1,5 @@
 ### Required setup ###
-# pip install openai langchain==0.0.136 sqlalchemy pyodbc
+# pip install openai langchain sqlalchemy pyodbc
 # pip install llama-cpp-python # ONLY for llamacpp
 # sudo apt-get install unixodbc-dev #for DB connections
 # install SQL ODBC (msodbcsql18):  https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server
