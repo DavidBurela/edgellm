@@ -59,6 +59,49 @@ CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python --no-c
 time python questionchain.py
 ```
 
+## Running a server
+In scenarios where you want the LLM deployed and executing on a larger machine and your application code running elsewhere, you can run this in server mode.
+
+The `llama-cpp-python` package can be run server mode that exposes an **OpenAI** compatible API.
+<https://abetlen.github.io/llama-cpp-python/#web-server>
+
+### Install server dependencies
+
+``` bash
+# Running the server command requires additional packages (fastapi sse_starlette uvicorn). You can install the additional packages via
+# CPU
+pip install llama-cpp-python[server]
+
+# GPU
+# do it all in one step with the cuBLAS install
+export LLAMA_CUBLAS=1
+CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python[server]
+```
+
+### Run the server
+You can pass in the same paremeters (threads, gpu layers) into the command line  
+Example: if your python code was
+``` python
+# Python reference
+model = LlamaCpp(model_path="./models/sample.bin" n_threads=4, n_gpu_layers=20)
+```
+=>
+``` bash
+# Start a local only server
+python -m llama_cpp.server --model ./models/sample.bin --n_threads=4 --n_gpu_layers 20
+# Start an exposed server. See docs for more details
+HOST=0.0.0.0 PORT=8091 python -m llama_cpp.server --model ./models/sample.bin --n_threads=4 --n_gpu_layers 20
+```
+
+### Modifying the client code
+Change your model to use the OpenAI model, but modify the remote server URL to be your server
+
+``` python
+from langchain.llms import OpenAI
+model = OpenAI(openai_api_base = "http://localhost:8000/v1", openai_api_key="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+```
+
+
 ## Sourcing models
-The easiest way to get started is to see which models are currently supported with Llama.cpp <https://github.com/ggerganov/llama.cpp>, and follow the links to those projects.
+The easiest way to get started is to see which models are currently supported with Llama.cpp <https://github.com/ggerganov/llama.cpp>, and follow the links to those projects.  
 Another is to see what compatible 4bit quantised models are available on Hugging Face <https://huggingface.co/4bit>
