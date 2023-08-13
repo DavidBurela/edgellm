@@ -103,5 +103,7 @@ model = OpenAI(openai_api_base = "http://localhost:8000/v1", openai_api_key="sk-
 
 
 ## Sourcing models
-The easiest way to get started is to see which models are currently supported with Llama.cpp <https://github.com/ggerganov/llama.cpp>, and follow the links to those projects.  
-Another is to see what compatible 4bit quantised models are available on Hugging Face <https://huggingface.co/4bit>
+ Check which models are currently supported with Llama.cpp <https://github.com/ggerganov/llama.cpp>, and follow the links to those projects.  
+ 
+ - Download pre-quantised models from Hugging Face <https://huggingface.co/TheBloke>
+   - [Llama 2 7B ggml](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML) - Download the q4_0.bin version
