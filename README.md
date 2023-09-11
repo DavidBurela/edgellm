@@ -1,11 +1,11 @@
 # EdgeLLM
-My spikes looking at patterns that allow you to build applications that can be swapped at runtime to run either in hyperscale (Azure OpenAI), or on edge compute (Llama.cpp). 
+This is a collection spikes I've done looking at patterns that allow for building LLM applications that can be swapped at runtime to run either in hyperscale (Azure OpenAI), or on edge compute (Llama.cpp). 
 
 The more complex examples (like SQL agent) require a lot of very heavy pip dependencies, so I haven't included a `requirements.txt`. Each python file has roughly the packages it needs to run.
 
 ## Running the sample
 
-### IMPORTANT
+### IMPORTANT NOTICE CPU/GPU
 Within each python script, you need to set the number of CPU threads, or GPU layers to use.
  
  - CPU: `n_threads` should be the same as your system
@@ -15,11 +15,12 @@ Within each python script, you need to set the number of CPU threads, or GPU lay
 # CPU only
 model = LlamaCpp(model_path="./models/model.bin", verbose=True, n_threads=8)
 
-# GPU. Only works if you install cuda and install llama-cpp-python with support
+# GPU. Only works if you install cuda and install llama-cpp-python with GPU support
 model = LlamaCpp(model_path="./models/model.bin", verbose=True, n_threads=8, n_gpu_layers=20)
 ```
 
-### Quickest. CPU only
+## Environment installation
+### Easiest - CPU only
 
 ``` bash
 # If you haven't used python before, create a standalone "virtual environment" to keep the dependencies self contained
@@ -32,7 +33,7 @@ python generatetext.py
 python questionchain.py
 ```
 
-### GPU enabled
+### GPU enabled (Nvidia/Cuda)
 ``` bash
 ## Install Miniconda
 # Get latest installer for your OS https://docs.conda.io/en/latest/miniconda.html
@@ -106,4 +107,4 @@ model = OpenAI(openai_api_base = "http://localhost:8000/v1", openai_api_key="sk-
  Check which models are currently supported with Llama.cpp <https://github.com/ggerganov/llama.cpp>, and follow the links to those projects.  
  
  - Download pre-quantised models from Hugging Face <https://huggingface.co/TheBloke>
-   - [Llama 2 7B ggml](https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML) - Download the q4_0.bin version
+   - [Llama 2 7B ggml](https://huggingface.co/TheBloke/Llama-2-7B-GGUF) - Download the `llama-2-7b.Q4_K_M.gguf` version
