@@ -9,7 +9,7 @@
     "forwardPorts": [8000],
 
     "runArgs": [
-      "--gpus",
-      "all"
+      // "--gpus",
+      // "all"
       ]
   }
