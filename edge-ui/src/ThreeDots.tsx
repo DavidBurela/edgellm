@@ -4,7 +4,7 @@ function ThreeDots() {
  
 
   return (
-        <img src={it} style={{height: "10px", width: "30px"}} />
+        <img src={it} style={{height: "100%", width: "50px"}} />
   )
 }
 
