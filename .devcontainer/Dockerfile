@@ -20,5 +20,3 @@ RUN export LLAMA_CUBLAS=0
 RUN CMAKE_ARGS="-DLLAMA_CUBLAS=off" FORCE_CMAKE=1 pip install llama-cpp-python[server] langchain
 
 RUN pip3 install langchain llama-cpp-python llama-cpp-python[server] openai Flask
-
-RUN make start

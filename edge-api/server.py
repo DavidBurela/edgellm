@@ -9,19 +9,17 @@ from werkzeug.utils import secure_filename
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import RetrievalQA
-from langchain.vectorstores import Chroma
+from langchain.vectorstores import FAISS
+from langchain.llms import LlamaCpp
 
 app = Flask(__name__, static_folder="../edge-ui/dist/", static_url_path="/")
 CORS(app)
 
-model = LlamaCppEmbeddings(model_path="./models/llama-2-7b.Q4_K_M.gguf", n_threads=8)
-
+model = LlamaCpp(model_path="./models/llama-2-7b.Q4_K_M.gguf", n_threads=8)
+embeddings = LlamaCppEmbeddings(model_path="./models/llama-2-7b.Q4_K_M.gguf", n_threads=8)
 
 currentDocumentName = ""
 currentDocumentPath = ""
-qaChain = None
-
-
 
 @app.route('/document', methods = ['GET'])
 def get_document_details():
@@ -31,27 +29,38 @@ def get_document_details():
 
 @app.route('/document', methods = ['POST'])
 def upload_file():
-    if len(request.files) == 0:
-        return   
     
-    currentDocumentName =  request.files.keys[0]
-    f = request.files[currentDocumentName]
-    currentDocumentPath = secure_filename(f.filename)
-    f.save(currentDocumentPath)
+    if len(request.files) == 0:
+        return  "nofiles" 
+    else:
+        print ("files found: ", len(request.files))
+    
+    currentDocument =  request.files["file"]
+    print(currentDocument.filename)
+    currentDocumentPath = secure_filename(currentDocument.filename)
+    print(currentDocumentPath)
+    currentDocument.save(currentDocumentPath)
 
     # From https://python.langchain.com/docs/use_cases/question_answering/how_to/vector_db_qa
 
     loader = TextLoader(currentDocumentPath)
+    print("loaded")
     documents = loader.load()
+    print(documents)
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
+    print("text was split")
     texts = text_splitter.split_documents(documents)
-    print(f"{len(texts)} chunks")
     
-    docSearch = Chroma.from_documents(texts, model)
+    print(f"Found {len(texts)} chunks")
+    
+    docSearch = FAISS.from_documents(texts, embeddings)
 
-    # Create a chain that uses the OpenAI LLM and HNSWLib vector store.
+    print(docSearch)
+    # Create a chain that uses the LlamaCPP LLM and FAISS vector store.
+    global qaChain 
     qaChain = RetrievalQA.from_chain_type(llm=model, chain_type="stuff", retriever=docSearch.as_retriever())
-
+    print(qaChain)
+    return {"status": "Done"}
 
 @app.route("/prompt", methods=["POST"])
 def send_message():

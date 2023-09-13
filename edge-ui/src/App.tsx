@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Send24Filled } from "@fluentui/react-icons";
 import {
   makeStyles,
@@ -11,6 +11,7 @@ import {
 import botAvatar from "./avatar.jpg";
 
 import ThreeDots from "./ThreeDots";
+import {useDropzone} from 'react-dropzone'
 
 const useStyles = makeStyles({
   wrapper: {
@@ -88,7 +89,8 @@ interface Message {
   text: string;
 }
 
-const url: string = "/prompt";
+const url: string = "";   //Use if running via docker
+//const url: string = "http://127.0.0.1:5000";  //Use if running locally
 
 const userName = "me";
 
@@ -101,7 +103,7 @@ function App() {
 
   const sendMessage = async (message: Message) => {
     setLoading(true);
-    const response = await fetch(`${url}`, {
+    const response = await fetch(`${url}/prompt`, {
       method: "POST",
       body: JSON.stringify({ prompt: message.text }),
       headers: {
@@ -124,6 +126,31 @@ function App() {
     setInput("");
   };
 
+  const uploadFile = async (file: File) => {
+    console.log(`Uploading file ${file.name}`);
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+    setMessages([...messages, { user: "bot", text: `Processing file ${file.name}, I'll let you know when I've finished.`} ]);
+    const response = await fetch(`${url}/document`, {
+      method: "POST",
+      body: formData
+    });
+
+    const json = await response.json(); 
+    setMessages([...messages, { user: "bot", text: `I've finished processing ${file.name}, you can ask me questions about it.`} ]);
+
+    console.log(`Json returned: ${json}`);
+  };
+  
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+      acceptedFiles.forEach((file) => {
+       uploadFile(file);
+      })
+    }, [])
+    const {getRootProps, getInputProps} = useDropzone({onDrop})
+
+
   return (
     <>
       <div className={classes.wrapper}>
@@ -132,7 +159,10 @@ function App() {
           <br />
           <Divider />
           <br />
-          <div className={classes.chatBox}>
+
+        
+          <div className={classes.chatBox} {...getRootProps()}>
+          <input {...getInputProps()} />
             <div className={classes.header}>
               <Persona
                 name="CoPilot Bot"
