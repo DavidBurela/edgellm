@@ -23,6 +23,6 @@ RUN cd edge-api && pip install --no-cache-dir -r requirements.txt
 
 
 # run the server
-CMD [ "python", "./edge-api/server2.py" ]
+CMD [ "python", "./edge-api/server.py" ]
 
 

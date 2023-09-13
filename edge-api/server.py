@@ -1,24 +1,27 @@
 #!pip install Flask
 #!pip install langchain llama-cpp-python
 
-from langchain.llms import LlamaCppEmbeddings
+from langchain.embeddings import LlamaCppEmbeddings
 from flask import Flask
 from flask_cors import CORS
 from flask import request
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import RetrievalQA
 from langchain.vectorstores import Chroma
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../edge-ui/dist/", static_url_path="/")
 CORS(app)
+
+model = LlamaCppEmbeddings(model_path="./models/llama-2-7b.Q4_K_M.gguf", n_threads=8)
+
 
 currentDocumentName = ""
 currentDocumentPath = ""
 qaChain = None
 
-model = LlamaCppEmbeddings(model_path="../models/llama-2-7b.Q4_K_M.gguf", n_threads=17)
+
 
 @app.route('/document', methods = ['GET'])
 def get_document_details():
@@ -71,7 +74,10 @@ def send_message():
         "response": response
     }
 
-# serve the ui from static files
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
-    return app.send_from_directory("../edge-ui/dist", "index.html")
+    # server up from static folder
+    return app.send_static_file("index.html")
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000)
