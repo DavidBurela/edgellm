@@ -1,3 +1,8 @@
-start:
+dev:
 	cd edge-ui && npm run dev &
-	flask --app server run
+	cd edge-api && flask --app server run
+
+build:
+
+
+	

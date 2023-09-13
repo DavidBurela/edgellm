@@ -19,7 +19,7 @@ template = """Question: {question}
 Answer: Let's think step by step."""
 
 prompt = PromptTemplate(template=template, input_variables=["question"])
-llm_chain = LLMChain(prompt=prompt, llm=model)
+llm_chain = LLMChain(prompt=prompt, llm=model,)
 question = "You are a interviewer interviewing a potential candidate for a senior engineer. You need to ascertain if this person is fit for the role by asking a series of questions in order to establish if they understand Azure at a deep technical level.  Please ask 5 questions that the interviewer can ask. "
 
 response=llm_chain.run(question)
