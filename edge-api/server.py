@@ -59,6 +59,8 @@ def upload_file():
     print(docSearch)
     # Create a chain that uses the LlamaCPP LLM and FAISS vector store.
     global qaChain 
+    # Create a chain that uses the LlamaCPP LLM and FAISS vector store.
+
     qaChain = RetrievalQA.from_chain_type(llm=model, chain_type="stuff", retriever=docSearch.as_retriever())
     print(qaChain)
     return {"status": "Done"}
