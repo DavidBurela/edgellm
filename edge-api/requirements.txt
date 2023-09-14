@@ -58,3 +58,4 @@ wcwidth==0.2.6
 Werkzeug==2.3.7
 yarl==1.9.2
 zipp==3.16.2
+faiss-cpu==1.7.4

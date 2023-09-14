@@ -19,6 +19,7 @@ ENV HOST 0.0.0.0
 RUN export LLAMA_CUBLAS=0
 RUN CMAKE_ARGS="-DLLAMA_CUBLAS=off" FORCE_CMAKE=1 pip install llama-cpp-python[server] langchain
 
-RUN pip3 install langchain llama-cpp-python llama-cpp-python[server] openai Flask
+RUN sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
-RUN make start
+
+RUN curl -L https://github.com/kubernetes/kompose/releases/download/v1.30.0/kompose-linux-amd64 -o kompose
