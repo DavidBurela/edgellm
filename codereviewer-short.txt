@@ -1,0 +1,26 @@
+Reviewer Guidance
+Since parts of reviews can be automated via linters and such, human reviewers can focus on architectural and functional correctness. Human reviewers should focus on:
+
+The correctness of the business logic embodied in the code.
+The correctness of any new or changed tests.
+The "readability" and maintainability of the overall design decisions reflected in the code.
+The checklist of common errors that the team maintains for each programming language.
+Code reviews should use the below guidance and checklists to ensure positive and effective code reviews.
+
+General guidance
+Understand the code you are reviewing
+Read every line changed.
+If we have a stakeholder review, it’s not necessary to run the PR unless it aids your understanding of the code.
+AzDO orders the files for you, but you should read the code in some logical sequence to aid understanding.
+If you don’t fully understand a change in a file because you don’t have context, click to view the whole file and read through the surrounding code or checkout the changes and view them in IDE.
+Ask the author to clarify.
+Take your time and keep focus on scope
+You shouldn't review code hastily but neither take too long in one sitting. If you have many pull requests (PRs) to review or if the complexity of code is demanding, the recommendation is to take a break between the reviews to recover and focus on the ones you are most experienced with.
+
+Always remember that a goal of a code review is to verify that the goals of the corresponding task have been achieved. If you have concerns about the related, adjacent code that isn't in the scope of the PR, address those as separate tasks (e.g., bugs, technical debt). Don't block the current PR due to issues that are out of scope.
+
+Foster a positive code review culture
+Code reviews play a critical role in product quality and it should not represent an arena for long discussions or even worse a battle of egos. What matters is a bug caught, not who made it, not who found it, not who fixed it. The only thing that matters is having the best possible product.
+
+Be considerate
+Be positive – encouraging, appreciation for good practices.

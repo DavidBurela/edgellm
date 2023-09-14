@@ -6,7 +6,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask import request
 from werkzeug.utils import secure_filename
-from langchain.document_loaders import TextLoader
+from langchain.document_loaders import TextLoader, PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import RetrievalQA
 from langchain.vectorstores import FAISS
@@ -20,6 +20,8 @@ embeddings = LlamaCppEmbeddings(model_path="./models/llama-2-7b.Q4_K_M.gguf", n_
 
 currentDocumentName = ""
 currentDocumentPath = ""
+
+qaChain = None
 
 @app.route('/document', methods = ['GET'])
 def get_document_details():
@@ -41,11 +43,10 @@ def upload_file():
     print(currentDocumentPath)
     currentDocument.save(currentDocumentPath)
 
+    documents = load_file(currentDocumentPath)
+
     # From https://python.langchain.com/docs/use_cases/question_answering/how_to/vector_db_qa
 
-    loader = TextLoader(currentDocumentPath)
-    print("loaded")
-    documents = loader.load()
     print(documents)
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
     print("text was split")
@@ -68,11 +69,14 @@ def send_message():
     print("Sending prompt: " + prompt)
 
     if qaChain is None:
+        print("No QA chain")
+        response = model(prompt)
+        print(response)
         return {
             "prompt": prompt,
-            "response": "I'm sorry, I'm not sure how to answer that - I haven't been given a document yet."
+            "response": f"I currently don't have any documents loaded, this is what I know so far.\n {response}" # "I'm sorry, I'm not sure how to answer that - I haven't been given a document yet."
         }
-
+    print("Running QA chain")
     response = qaChain.run(prompt)
     
     print(response)
@@ -82,6 +86,18 @@ def send_message():
         "prompt": prompt,
         "response": response
     }
+
+def load_file(path):
+    # if the file extension is .txt, load as text
+    if path.endswith(".txt"):
+        loader = TextLoader(path)
+        documents = loader.load()
+    # if the file extension is .pdf, load as pdf
+    elif path.endswith(".pdf"):
+        loader = PyPDFLoader(path)
+        documents = loader.load_and_split()
+
+    return documents
 
 @app.route("/", methods=["GET"])
 def index():

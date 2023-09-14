@@ -6,9 +6,11 @@ import {
   Persona,
   shorthands,
   Divider,
+  tokens,
+  
 } from "@fluentui/react-components";
 
-import botAvatar from "./avatar.jpg";
+import botAvatar from "../assets/logo.jpg";
 
 import ThreeDots from "./ThreeDots";
 import {useDropzone} from 'react-dropzone'
@@ -18,8 +20,8 @@ const useStyles = makeStyles({
     display: "flex",
     width: "100%",
     justifyContent: "center",
-    backgroundColor: "#f5f5f5",
     height: "100vh",
+    backgroundColor: tokens.colorNeutralBackground2
   },
   root: {
     display: "flex",
@@ -27,14 +29,14 @@ const useStyles = makeStyles({
     flexDirection: "column",
     width: "50%",
     justifyContent: "center",
-    backgroundColor: "#fff",
+    backgroundColor: tokens.colorNeutralBackground1
   },
   chatBox: {
     display: "flex",
     height: "100%",
     width: "100%",
     flexDirection: "column",
-    overflowY: "scroll",
+    overflowY: "auto",
   },
   tools: {
     width: "100%",
@@ -89,8 +91,8 @@ interface Message {
   text: string;
 }
 
-const url: string = "";   //Use if running via docker
-//const url: string = "http://127.0.0.1:5000";  //Use if running locally
+//const url: string = "";   //Use if running via docker
+const url: string = "http://127.0.0.1:5000";  //Use if running locally
 
 const userName = "me";
 
@@ -130,15 +132,23 @@ function App() {
     console.log(`Uploading file ${file.name}`);
     const formData = new FormData();
     formData.append("file", file, file.name);
-    setMessages([...messages, { user: "bot", text: `Processing file ${file.name}, I'll let you know when I've finished.`} ]);
+
+    setMessages((current) => [
+      ...current,
+      { user: "bot", text: `Processing file ${file.name}, I'll let you know when I've finished.`},
+    ]);
+    setLoading(true);
     const response = await fetch(`${url}/document`, {
       method: "POST",
       body: formData
     });
 
     const json = await response.json(); 
-    setMessages([...messages, { user: "bot", text: `I've finished processing ${file.name}, you can ask me questions about it.`} ]);
-
+    setMessages((current) => [
+      ...current,
+      { user: "bot", text: `I've finished processing ${file.name}, you can ask me questions about it.`},
+    ]);
+    setLoading(false);
     console.log(`Json returned: ${json}`);
   };
   
@@ -155,7 +165,9 @@ function App() {
     <>
       <div className={classes.wrapper}>
         <div className={classes.root}>
-          <h1>DisCopilot 🕺</h1>
+         
+          <h1>DisCopilot</h1>
+          <h3>A Disconnected Copilot</h3>
           <br />
           <Divider />
           <br />
@@ -165,11 +177,12 @@ function App() {
           <input {...getInputProps()} />
             <div className={classes.header}>
               <Persona
-                name="CoPilot Bot"
+                name="Disconnected CoPilot Bot"
                 secondaryText="Almost Human"
                 avatar={{
                   image: {
-                    src: botAvatar
+                    src: botAvatar,
+                    width: '100px'
                   },
                 }}
                 presence={{
@@ -198,7 +211,8 @@ function App() {
           </div>
           <div className={classes.tools}>
             <Input
-              contentAfter={<Send24Filled />}
+            appearance="underline"
+            contentAfter={<Send24Filled />}
               onKeyPress={(k) => {
                 if (k.key === "Enter") {
                   onSend();
