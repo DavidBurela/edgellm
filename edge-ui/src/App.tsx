@@ -7,7 +7,7 @@ import {
   shorthands,
   Divider,
   tokens,
-  
+
 } from "@fluentui/react-components";
 
 import botAvatar from "../assets/logo.jpg";
@@ -92,7 +92,7 @@ interface Message {
 }
 
 //const url: string = "";   //Use if running via docker
-const url: string = "http://127.0.0.1:5000";  //Use if running locally
+const url: string = "";  //Use if running locally
 
 const userName = "me";
 
@@ -143,7 +143,7 @@ function App() {
       body: formData
     });
 
-    const json = await response.json(); 
+    const json = await response.json();
     setMessages((current) => [
       ...current,
       { user: "bot", text: `I've finished processing ${file.name}, you can ask me questions about it.`},
@@ -151,7 +151,7 @@ function App() {
     setLoading(false);
     console.log(`Json returned: ${json}`);
   };
-  
+
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
       acceptedFiles.forEach((file) => {
@@ -165,14 +165,14 @@ function App() {
     <>
       <div className={classes.wrapper}>
         <div className={classes.root}>
-         
+
           <h1>DisCopilot</h1>
           <h3>A Disconnected Copilot</h3>
           <br />
           <Divider />
           <br />
 
-        
+
           <div className={classes.chatBox} {...getRootProps()}>
           <input {...getInputProps()} />
             <div className={classes.header}>
