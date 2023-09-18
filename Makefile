@@ -8,15 +8,10 @@ dev:
 	cd edge-api && flask --app server run
 
 build:
-	docker-compose build
-	./kompose convert -f docker-compose.yml -o k8s.yml
+	docker build -t north.azurecr.io/discopilot .
 
 push:
-	docker-compose push
-
-deploy: 
-	kubectl create secret docker-registry north-registry --docker-server=north.azurecr.io  --docker-username=north --docker-password=
-	kubectl apply -f k8s.yml
+	docker push north.azurecr.io/discopilot
 
 
 
@@ -24,4 +19,3 @@ deploy:
 
 
 
-	
