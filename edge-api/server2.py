@@ -10,7 +10,7 @@ from flask import request
 app = Flask(__name__, static_folder="../edge-ui/dist/", static_url_path="/")
 CORS(app)
 
-model = LlamaCpp(model_path="./models/llama-2-7b.Q4_K_M.gguf", verbose=True, n_threads=8, n_gpu_layers=26)
+model = LlamaCpp(model_path="../models/llama-2-7b.Q4_K_M.gguf", verbose=True, n_threads=8, n_gpu_layers=26)
 
 
 @app.route("/prompt", methods=["POST"])
