@@ -91,8 +91,8 @@ interface Message {
   text: string;
 }
 
-//const url: string = "";   //Use if running via docker
-const url: string = "";  //Use if running locally
+const url: string = "http://localhost:5000";   //Use if running via docker
+//const url: string = "";  //Use if running locally
 
 const userName = "me";
 
@@ -126,12 +126,19 @@ function App() {
     setMessages([...messages, msg]);
     sendMessage(msg);
     setInput("");
+
+    // const chatBox = document.getElementsByClassName(classes.chatBox)[0];
+    // chatBox.scrollTop = chatBox.scrollHeight;
+
   };
 
   const uploadFile = async (file: File) => {
     console.log(`Uploading file ${file.name}`);
     const formData = new FormData();
     formData.append("file", file, file.name);
+
+    // const chatBox = document.getElementsByClassName(classes.chatBox)[0];
+    // chatBox.scrollTop = chatBox.scrollHeight;
 
     setMessages((current) => [
       ...current,
