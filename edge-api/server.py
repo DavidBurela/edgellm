@@ -38,8 +38,9 @@ def upload_file():
         print ("files found: ", len(request.files))
     
     currentDocument =  request.files["file"]
+
     print(currentDocument.filename)
-    currentDocumentPath = secure_filename(currentDocument.filename)
+    currentDocumentPath = "./uploads/" + secure_filename(currentDocument.filename)
     print(currentDocumentPath)
     currentDocument.save(currentDocumentPath)
 

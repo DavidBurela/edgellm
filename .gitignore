@@ -6,6 +6,9 @@ models/
 
 node_modules/
 
+## File uploads to API
+edge-api/uploads/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
