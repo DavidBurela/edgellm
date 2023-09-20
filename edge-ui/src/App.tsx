@@ -103,8 +103,15 @@ function App() {
 
   const [loading, setLoading] = useState(false);
 
+  const scrollToBottom = () => {
+    const chatBox = document.getElementById("chatBox");
+    if (chatBox != null)
+      chatBox.scrollTop = chatBox.scrollHeight;
+  };
+
   const sendMessage = async (message: Message) => {
     setLoading(true);
+    scrollToBottom();
     const response = await fetch(`${url}/prompt`, {
       method: "POST",
       body: JSON.stringify({ prompt: message.text }),
@@ -119,6 +126,7 @@ function App() {
       { user: "bot", text: data.response },
     ]);
     setLoading(false);
+    scrollToBottom();
   };
 
   const onSend = () => {
@@ -126,25 +134,18 @@ function App() {
     setMessages([...messages, msg]);
     sendMessage(msg);
     setInput("");
-
-    // const chatBox = document.getElementsByClassName(classes.chatBox)[0];
-    // chatBox.scrollTop = chatBox.scrollHeight;
-
   };
 
   const uploadFile = async (file: File) => {
     console.log(`Uploading file ${file.name}`);
     const formData = new FormData();
     formData.append("file", file, file.name);
-
-    // const chatBox = document.getElementsByClassName(classes.chatBox)[0];
-    // chatBox.scrollTop = chatBox.scrollHeight;
-
     setMessages((current) => [
       ...current,
       { user: "bot", text: `Processing file ${file.name}, I'll let you know when I've finished.`},
     ]);
     setLoading(true);
+    scrollToBottom();
     const response = await fetch(`${url}/document`, {
       method: "POST",
       body: formData
@@ -156,6 +157,7 @@ function App() {
       { user: "bot", text: `I've finished processing ${file.name}, you can ask me questions about it.`},
     ]);
     setLoading(false);
+    scrollToBottom();
     console.log(`Json returned: ${json}`);
   };
 
@@ -180,7 +182,7 @@ function App() {
           <br />
 
 
-          <div className={classes.chatBox} {...getRootProps()}>
+          <div id="chatBox" className={classes.chatBox} {...getRootProps()}>
           <input {...getInputProps()} />
             <div className={classes.header}>
               <Persona
@@ -227,7 +229,7 @@ function App() {
               }}
               className={classes.messageBox}
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => { setInput(e.target.value) }}
             />
           </div>
         </div>

@@ -8,6 +8,7 @@ node_modules/
 
 ## File uploads to API
 edge-api/uploads/
+data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
