@@ -15,8 +15,10 @@ from langchain.llms import LlamaCpp
 app = Flask(__name__, static_folder="../edge-ui/dist/", static_url_path="/")
 CORS(app)
 
-model = LlamaCpp(model_path="../models/llama-2-7b.Q4_K_M.gguf", n_threads=8)
-embeddings = LlamaCppEmbeddings(model_path="../models/llama-2-7b.Q4_K_M.gguf", n_threads=8)
+modelName = "llama-2-7b.Q4_K_M.gguf"
+#modelName = "pytorch_model.bin"
+model = LlamaCpp(model_path="../models/" + modelName, n_ctx=1024, n_threads=8)
+embeddings = LlamaCppEmbeddings(model_path="../models/" + modelName, n_threads=8)
 
 currentDocumentName = ""
 currentDocumentPath = ""
