@@ -2,7 +2,13 @@
 
 ## DisCoPilot: Disconnected CoPilot
 
-The devcontainer will setup all dependencies.  Once in, run `make dev` to start the flask API and REACT chatbot front end.
+The devcontainer will setup all dependencies.  Once in, perform the following tasks to configure and build and start the flask API and REACT chatbot front end:
+
+- Add a model under `/models` and update `/edge-api/server-no-embeddings.py` and `/edge-api/server.py` with the model name
+- Add an `/uploads` folder under `/edge-api/`
+- `cd edge-api` and run `npm install` in terminal
+- `cd edge-ui` and run `npm install`in terminal
+- Run `make dev` from the root folder in terminal and note the port where the app is running
 
 You can drop files onto the chatbot surface which will create in-memory embeddings which you can reason over.  Restarting the app will recycle the state and you will need to upload new files.
 
