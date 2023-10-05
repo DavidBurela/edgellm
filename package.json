@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-loading-dot": "^1.0.6",
+    "react-native-dot-typing": "^1.0.2"
+  }
+}

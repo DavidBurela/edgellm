@@ -1,0 +1,14 @@
+version: '3.6'
+services:
+    discopilot:
+      container_name: discopilot
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: north.azurecr.io/discopilot
+      restart: always
+      labels: 
+        - kompose.image-pull-secret=north-registry
+
+      ports:
+        - "5001:5000"

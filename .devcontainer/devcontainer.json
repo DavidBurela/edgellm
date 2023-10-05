@@ -1,15 +1,37 @@
 {
-    "build": { "dockerfile": "Dockerfile" },
+    // "build": { "dockerfile": "Dockerfile" },
   
+    "name": "EdgeLLM Dev Container",
+    "image": "mcr.microsoft.com/devcontainers/base:bullseye",
     "customizations": {
       "vscode": {
       }
     },
   
+    "features":{
+      "ghcr.io/devcontainers/features/python:1": {
+        "installTools": true
+      },
+      "ghcr.io/devcontainers/features/node:1": {
+        "nodeGypDependencies": true,
+        "version": "lts"
+      },
+      "ghcr.io/jungaretti/features/make:1": {},
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {
+        "moby": true,
+        "azureDnsAutoDetection": true,
+        "installDockerBuildx": true,
+        "version": "latest",
+        "dockerDashComposeVersion": "v1"
+      }
+    },
+    
+    "postCreateCommand": "pip install -r ./edge-api/requirements.txt",
+
     "forwardPorts": [8000],
 
     "runArgs": [
-      "--gpus",
-      "all"
+      // "--gpus",
+      // "all"
       ]
   }
